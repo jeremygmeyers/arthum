@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=entries>
+    {% if session.logged_in %}
+      <form action='{{ url_for("delete_entry") }}' method=post class=delete>
+    {% endif %} 
+  {% for entry in entries %}
+    <li><h2>{{ entry.title }} {{entry.id_entry|safe}}</h2>{{ entry.artist|safe }} {{entry.year|safe}} <img src="{{ entry.link|safe}}" width="500px" height="auto">
+    {% if session.logged_in %}
+      <input type=radio name=delete_entry value={{ entry.id_entry|safe }}>Delete
+    {% endif %} 
+    {% for answer in answers %}
+      {% if answer.imageID|safe == entry.id_entry|safe %}
+      <li> {{ answer.title }} {{ answer.artist|safe }} {{answer.year|safe}} {{ answer.description|safe}} {{ answer.timestamp|safe }}
+      {% endif %}
+    {% endfor %}
+
+  {% endfor %}
+    {% if session.logged_in %}
+      <br /><br />
+      <input type=submit value=delete>
+      </form>
+    {% endif %} 
+  </ul>
+<!--
+<h2> Answers </h2>
+  <ul class=answers>
+  {% for answer in answers %}
+    <li><h2>{{ answer.imageID|safe }} </h2> {{ answer.title }} {{ answer.artist|safe }} {{answer.year|safe}} {{ answer.description|safe}} {{ answer.timestamp|safe }}
+  {% endfor %}
+  </ul>
+-->
+{% endblock %}

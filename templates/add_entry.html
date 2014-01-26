@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Artist:
+        <dd><input type=text size=30 name=artist>
+        <dt>Year:
+        <dd><input type=text size=30 name=year>
+        <dt>Link:
+        <dd><input type=text size=30 name=link>
+        <dt>Description:
+        <dd><textarea name=desc rows=5 cols=40></textarea>
+        <dd><input type=submit value=Save>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>{{ entry.title }}</h2>{{ entry.artist|safe }} {{entry.year|safe}} <img src="{{ entry.link|safe}}">
+  {% else %}
+    <li><em>You are not logged in.</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
